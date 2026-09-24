@@ -45,7 +45,7 @@ jobs:
       - name: Log into Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ vars.DOCKER_CUSTOMER_USERNAME }}
+          username: ${{ secrets.DOCKER_CUSTOMER_USERNAME }}
           password: ${{ secrets.DOCKER_CUSTOMER_PASSWORD }}
 
       - name: Build and push Docker-image
@@ -53,5 +53,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ vars.DOCKER_CUSTOMER_USERNAME }}/booking:latest
+          tags: ${{ secrets.DOCKER_CUSTOMER_USERNAME }}/booking:latest
 
