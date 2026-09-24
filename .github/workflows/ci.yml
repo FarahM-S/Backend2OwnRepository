@@ -15,7 +15,7 @@ jobs:
       mysql:
         image: mysql:8
         env:
-          MYSQL_ROOT_PASSWORD: ${{secrets.DATABASE_CUSTOMER_PASSWORD}}
+          MYSQL_ROOT_PASSWORD: ${{secrets.DOCKER_DATABASE_PASSWORD}}
           MYSQL_DATABASE: customerdb
         ports:
           - 3306:3306
@@ -59,12 +59,14 @@ jobs:
 
       - name: Log into Docker Hub
         if: github.event_name == 'push'
-        run: echo ${{secrets.DOCKERHUB_CUSTOMER_PASSWORD}} | docker login -u ${{secrets.DOCKERHUB_CUSTOMER_USERNAME}} --password-stdin
+        run: echo ${{secrets.DOCKERHUB_TOKEN}} | docker login -u ${{secrets.DOCKERHUB_USERNAME}} --password-stdin
 
-      - name: Build and push Docker-image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ secrets.DOCKER_CUSTOMER_USERNAME }}/booking:latest
+      - name: push docker hub
+        if: github.event_name == 'push'
+        run: |
+          docker push farahmsleiman/booking-service-java25:${{github.run_number}}
+#        env:
+#          SPRING_DATASOURCE_URL: ${{secrets.DATABASE_URL}}
+#          SPRING_DATASOURCE_USERNAME: ${{secrets.DATABASE_USERNAME}}
+#          SPRING_DATASOURCE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
 
