@@ -43,10 +43,8 @@ jobs:
         run: mvn -B package -DskipTests
 
       - name: Log into Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_CUSTOMER_USERNAME }}
-          password: ${{ secrets.DOCKER_CUSTOMER_PASSWORD }}
+        if: github.event_name == 'push'
+        run: echo ${{secrets.DOCKERHUB_CUSTOMER_PASSWORD}} | docker login -u ${{secrets.DOCKERHUB_CUSTOMER_USERNAME}} --password-stdin
 
       - name: Build and push Docker-image
         uses: docker/build-push-action@v5
