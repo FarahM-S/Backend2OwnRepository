@@ -15,7 +15,7 @@ jobs:
       mysql:
         image: mysql:8
         env:
-          MYSQL_ROOT_PASSWORD: ${{secrets.DOCKER_DATABASE_PASSWORD}}
+          MYSQL_ROOT_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
           MYSQL_DATABASE: customerdb
         ports:
           - 3306:3306
@@ -65,8 +65,8 @@ jobs:
         if: github.event_name == 'push'
         run: |
           docker push farahmsleiman/booking-service-java25:${{github.run_number}}
-#        env:
-#          SPRING_DATASOURCE_URL: ${{secrets.DATABASE_URL}}
-#          SPRING_DATASOURCE_USERNAME: ${{secrets.DATABASE_USERNAME}}
-#          SPRING_DATASOURCE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
+        env:
+          SPRING_DATASOURCE_URL: ${{secrets.DATABASE_URL}}
+          SPRING_DATASOURCE_USERNAME: ${{secrets.DATABASE_USERNAME}}
+          SPRING_DATASOURCE_PASSWORD: ${{secrets.DATABASE_PASSWORD}}
 
