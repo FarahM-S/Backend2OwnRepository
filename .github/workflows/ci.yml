@@ -10,7 +10,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    # det här kan läggas till om man inte använder testcontainers
     services:
       mysql:
         image: mysql:8
